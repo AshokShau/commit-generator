@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c72270f-3632-4977-8073-3fc01ad1d6ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/github-bot.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hmm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hmm.py" beforeDir="false" afterPath="$PROJECT_DIR$/hmm.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

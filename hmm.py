@@ -6,9 +6,6 @@ start_date = datetime(2000, 1, 1)
 end_date = datetime(2000, 12, 30)
 commit_message = "Your commit message"  # Change this to your desired commit message
 
-# Change to your Git repository directory if needed
-# subprocess.run(["cd", "/path/to/your/repo"], check=True)
-
 # Stage all changes initially
 subprocess.run(["git", "add", "."], check=True)
 
@@ -19,6 +16,8 @@ while current_date <= end_date:
     env = {
         "GIT_COMMITTER_DATE": current_date.strftime("%Y-%m-%d %H:%M:%S"),
         "GIT_AUTHOR_DATE": current_date.strftime("%Y-%m-%d %H:%M:%S"),
+        "GIT_AUTHOR_NAME": "AshokShau",
+        "GIT_AUTHOR_EMAIL": "Abishnoi69@outlook.com"
     }
 
     # Create the commit

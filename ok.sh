@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-# Set the starting date to a specific date in 2000
+# Set the date to a specific date in 2000
 OLD_DATE="2000-01-01 12:00:00"  # Change the date and time as needed
 
 # Change to the directory of your Git repository (optional)
@@ -15,17 +15,8 @@ OLD_DATE="2000-01-01 12:00:00"  # Change the date and time as needed
 # Stage all changes
 git add .
 
-# Commit 200 times
-# shellcheck disable=SC2034
-for i in {1..200}; do
-  GIT_COMMITTER_DATE="$OLD_DATE" git commit --date="$OLD_DATE" -m "$1"
-
-  # Increment the date by one day for the next commit
-  OLD_DATE=$(date -d "$OLD_DATE + 1 day" +"%Y-%m-%d %H:%M:%S")
-
-  # Optionally, stage changes again if needed
-  git add .
-done
+# Commit with the specified date
+GIT_COMMITTER_DATE="$OLD_DATE" git commit --date="$OLD_DATE" -m "$1"
 
 # Push changes to the remote repository (defaulting to master)
 git push origin master

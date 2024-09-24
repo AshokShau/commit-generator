@@ -47,9 +47,9 @@ func main() {
 			return
 		}
 
-		// Stage the file for commit
-		if err := gitAdd(filename); err != nil {
-			fmt.Println("Error adding file:", err)
+		// Stage all changes for commit
+		if err := gitAddAll(); err != nil {
+			fmt.Println("Error adding files:", err)
 			return
 		}
 
@@ -70,8 +70,8 @@ func main() {
 	}
 }
 
-func gitAdd(filename string) error {
-	cmd := exec.Command("git", "add", filename)
+func gitAddAll() error {
+	cmd := exec.Command("git", "add", ".")
 	return cmd.Run()
 }
 
@@ -85,7 +85,7 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 		fmt.Sprintf("GIT_COMMITTER_EMAIL=%s", authorEmail),
 	}
 
-	cmd := exec.Command("git", "commit", "--date", currentDate.Format("2006-01-02 15:04:05"), "-m", fmt.Sprintf("%s - %d", commitMessage, commitIndex+1))
+	cmd := exec.Command("git", "commit", "-a", "--date", currentDate.Format("2006-01-02 15:04:05"), "-m", fmt.Sprintf("%s - %d", commitMessage, commitIndex+1))
 	cmd.Env = env
 
 	// Capture output and error
@@ -112,4 +112,3 @@ func gitPush() error {
 	}
 	return nil
 }
-```

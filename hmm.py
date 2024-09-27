@@ -2,8 +2,8 @@ import subprocess
 from datetime import datetime, timedelta
 
 # Define the starting date and commit message
-start_date = datetime(2002, 1, 1)
-end_date = datetime(2002, 12, 30)
+start_date = datetime(2024, 1, 1)
+end_date = datetime(2024, 12, 30)
 commit_message = "Your commit message"  # Change this to your desired commit message
 
 # Loop through each day and create a commit

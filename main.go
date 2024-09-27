@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"time"
 )
 
 const (
-	startDate     = "2023-09-25"
+	startDate     = "2024-09-27"
 	endDate       = "2024-09-27"
 	commitMessage = "Test"
-	commitsPerDay = 2
+	commitsPerDay = 20
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
 )
@@ -19,37 +20,40 @@ const (
 func main() {
 	start, err := time.Parse("2006-01-02", startDate)
 	if err != nil {
-		fmt.Println("Error parsing start date:", err)
+		log.Print("Error parsing start date:", err)
 		return
 	}
 
 	end, err := time.Parse("2006-01-02", endDate)
 	if err != nil {
-		fmt.Println("Error parsing end date:", err)
+		log.Print("Error parsing end date:", err)
 		return
 	}
 
-	currentDate := start
+	filename := "commits.txt"
+	fileContent := ""
 
+	currentDate := start
 	for currentDate.Before(end) || currentDate.Equal(end) {
 		for i := 0; i < commitsPerDay; i++ {
-			filename := fmt.Sprintf("file_%s_%d.txt", currentDate.Format("2006-01-02"), i)
-			if err := os.WriteFile(filename, []byte(fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))), 0644); err != nil {
-				fmt.Println("Error writing file:", err)
-				return
-			}
-
-			if err := gitAdd(filename); err != nil {
-				fmt.Println("Error adding file:", err)
-				return
-			}
-
+			fileContent += fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))
 			if err := gitCommit(currentDate, i); err != nil {
-				fmt.Println("Error committing:", err)
+				log.Print("Error committing:", err)
 				return
 			}
 		}
 		currentDate = currentDate.AddDate(0, 0, 1)
+	}
+
+	// Write all commit messages to the single file
+	if err := os.WriteFile(filename, []byte(fileContent), 0644); err != nil {
+		fmt.Println("Error writing file:", err)
+		return
+	}
+
+	if err := gitAdd(filename); err != nil {
+		fmt.Println("Error adding file:", err)
+		return
 	}
 
 	if err := gitPush(); err != nil {

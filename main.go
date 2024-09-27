@@ -47,18 +47,16 @@ func main() {
 			return
 		}
 
-		// Stage all changes for commit
-		if err := gitAddAll(); err != nil {
-			fmt.Println("Error adding files:", err)
+		// Stage the file for commit
+		if err := gitAdd(filename); err != nil {
+			fmt.Println("Error adding file:", err)
 			return
 		}
 
-		// Commit the changes
-		for i := 0; i < commitsPerDay; i++ {
-			if err := gitCommit(currentDate, i); err != nil {
-				log.Print("Error committing:", err)
-				return
-			}
+		// Commit the changes once for the day
+		if err := gitCommit(currentDate); err != nil {
+			log.Print("Error committing:", err)
+			return
 		}
 
 		currentDate = currentDate.AddDate(0, 0, 1)
@@ -70,12 +68,12 @@ func main() {
 	}
 }
 
-func gitAddAll() error {
-	cmd := exec.Command("git", "add", ".")
+func gitAdd(filename string) error {
+	cmd := exec.Command("git", "add", filename)
 	return cmd.Run()
 }
 
-func gitCommit(currentDate time.Time, commitIndex int) error {
+func gitCommit(currentDate time.Time) error {
 	env := []string{
 		fmt.Sprintf("GIT_COMMITTER_DATE=%s", currentDate.Format("2006-01-02 15:04:05")),
 		fmt.Sprintf("GIT_AUTHOR_DATE=%s", currentDate.Format("2006-01-02 15:04:05")),
@@ -85,7 +83,7 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 		fmt.Sprintf("GIT_COMMITTER_EMAIL=%s", authorEmail),
 	}
 
-	cmd := exec.Command("git", "commit", "-a", "--date", currentDate.Format("2006-01-02 15:04:05"), "-m", fmt.Sprintf("%s - %d", commitMessage, commitIndex+1))
+	cmd := exec.Command("git", "commit", "--date", currentDate.Format("2006-01-02 15:04:05"), "-m", commitMessage)
 	cmd.Env = env
 
 	// Capture output and error

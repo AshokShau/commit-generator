@@ -1,32 +1,20 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"net/http"
 	"os"
 	"os/exec"
 	"time"
 )
 
 const (
-<<<<<<< Updated upstream
-	startDate     = "2024-09-26"
-	endDate       = "2024-09-28"
-=======
 	fileName      = "commit_file.txt" // Single file for all commits
 	startDate     = "2021-09-25"
 	endDate       = "2024-09-27"
->>>>>>> Stashed changes
 	commitMessage = "Test"
 	commitsPerDay = 1
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
-	repoOwner     = "AshokShau"
-	repoName      = "github-bot"
-	prBaseBranch  = "master" // or any other branch you want to merge into
-	token         = ""       // GitHub token with repo permissions
 )
 
 func main() {
@@ -73,11 +61,6 @@ func main() {
 
 	if err := gitPush(); err != nil {
 		fmt.Println("Error pushing to repository:", err)
-		return
-	}
-
-	if err := createPullRequest(); err != nil {
-		fmt.Println("Error creating pull request:", err)
 	}
 }
 
@@ -114,47 +97,6 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 }
 
 func gitPush() error {
-	cmd := exec.Command("git", "push", "origin", "master") // Change if using a different branch
+	cmd := exec.Command("git", "push", "origin", "master")
 	return cmd.Run()
 }
-<<<<<<< Updated upstream
-
-func createPullRequest() error {
-	prURL := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls", repoOwner, repoName)
-
-	prData := map[string]interface{}{
-		"title": "Automated Pull Request",
-		"head":  "your-feature-branch", // Replace with the branch you pushed to
-		"base":  prBaseBranch,
-		"body":  "This is an automated pull request.",
-	}
-
-	jsonData, err := json.Marshal(prData)
-	if err != nil {
-		return fmt.Errorf("error marshaling PR data: %w", err)
-	}
-
-	req, err := http.NewRequest("POST", prURL, bytes.NewBuffer(jsonData))
-	if err != nil {
-		return fmt.Errorf("error creating request: %w", err)
-	}
-	req.Header.Set("Authorization", "token "+token)
-	req.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return fmt.Errorf("error sending request: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("failed to create pull request: %s", resp.Status)
-	}
-
-	fmt.Println("Pull request created successfully!")
-	return nil
-}
-=======
-```
->>>>>>> Stashed changes

@@ -51,7 +51,7 @@ func main() {
 		return
 	}
 
-	if err := gitAdd(filename); err != nil {
+	if err := gitAdd(); err != nil {
 		fmt.Println("Error adding file:", err)
 		return
 	}
@@ -60,9 +60,9 @@ func main() {
 		fmt.Println("Error pushing to repository:", err)
 	}
 }
-
-func gitAdd(filename string) error {
-	cmd := exec.Command("git", "add", filename)
+func gitAdd() error {
+	// Add all changes
+	cmd := exec.Command("git", "add", ".")
 	return cmd.Run()
 }
 
@@ -79,7 +79,12 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 	cmd := exec.Command("git", "commit", "--date", currentDate.Format("2006-01-02 15:04:05"), "-m", fmt.Sprintf("%s - %d", commitMessage, commitIndex+1))
 	cmd.Env = env
 
-	return cmd.Run()
+	// Capture output and error
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("command output: %s, error: %w", out, err)
+	}
+	return nil
 }
 
 func gitPush() error {

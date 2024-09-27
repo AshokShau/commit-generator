@@ -9,14 +9,14 @@ import (
 
 const (
 	fileName      = "commit_file.txt" // Single file for all commits
-	startDate     = "2024-05-25"
-	endDate       = "2024-09-27"
+	startDate     = "2024-09-24"
+	endDate       = "2024-09-28"
 	commitMessage = "Test-Automation-Commit"
-	commitsPerDay = 2
+	commitsPerDay = 30
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
 )
-
+		
 func main() {
 	start, err := time.Parse("2006-01-02", startDate)
 	if err != nil {

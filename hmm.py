@@ -2,7 +2,7 @@ import subprocess
 from datetime import datetime, timedelta
 
 # Define the starting date, ending date, and commit message
-start_date = datetime(2024, 1, 1)
+start_date = datetime(2000, 1, 1)
 end_date = datetime(2024, 12, 30)
 commit_message = "Your commit message"  # Change this to your desired commit message
 commits_per_day = 10  # Number of commits per day

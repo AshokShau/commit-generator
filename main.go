@@ -11,7 +11,7 @@ const (
 	startDate     = "2021-09-25"
 	endDate       = "2024-09-27"
 	commitMessage = "Test"
-	commitsPerDay = 2
+	commitsPerDay = 1
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
 )

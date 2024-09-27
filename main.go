@@ -11,8 +11,14 @@ import (
 )
 
 const (
+<<<<<<< Updated upstream
 	startDate     = "2024-09-26"
 	endDate       = "2024-09-28"
+=======
+	fileName      = "commit_file.txt" // Single file for all commits
+	startDate     = "2021-09-25"
+	endDate       = "2024-09-27"
+>>>>>>> Stashed changes
 	commitMessage = "Test"
 	commitsPerDay = 1
 	authorName    = "AshokShau"
@@ -38,15 +44,21 @@ func main() {
 
 	currentDate := start
 
+	// Create or open the single commit file
+	if err := os.WriteFile(fileName, []byte("Commits:\n"), 0644); err != nil {
+		fmt.Println("Error writing initial file:", err)
+		return
+	}
+
 	for currentDate.Before(end) || currentDate.Equal(end) {
 		for i := 0; i < commitsPerDay; i++ {
-			filename := fmt.Sprintf("file_%s_%d.txt", currentDate.Format("2006-01-02"), i)
-			if err := os.WriteFile(filename, []byte(fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))), 0644); err != nil {
-				fmt.Println("Error writing file:", err)
+			// Append content to the file
+			if err := appendToFile(fileName, fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))); err != nil {
+				fmt.Println("Error appending to file:", err)
 				return
 			}
 
-			if err := gitAdd(filename); err != nil {
+			if err := gitAdd(fileName); err != nil {
 				fmt.Println("Error adding file:", err)
 				return
 			}
@@ -67,6 +79,17 @@ func main() {
 	if err := createPullRequest(); err != nil {
 		fmt.Println("Error creating pull request:", err)
 	}
+}
+
+func appendToFile(filename, content string) error {
+	file, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = file.WriteString(content)
+	return err
 }
 
 func gitAdd(filename string) error {
@@ -94,6 +117,7 @@ func gitPush() error {
 	cmd := exec.Command("git", "push", "origin", "master") // Change if using a different branch
 	return cmd.Run()
 }
+<<<<<<< Updated upstream
 
 func createPullRequest() error {
 	prURL := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls", repoOwner, repoName)
@@ -131,3 +155,6 @@ func createPullRequest() error {
 	fmt.Println("Pull request created successfully!")
 	return nil
 }
+=======
+```
+>>>>>>> Stashed changes

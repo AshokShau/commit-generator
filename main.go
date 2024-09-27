@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	startDate     = "2024-09-27"
+	startDate     = "2024-09-25"
 	endDate       = "2024-09-27"
 	commitMessage = "Test"
 	commitsPerDay = 20
@@ -31,38 +31,47 @@ func main() {
 	}
 
 	filename := "commits.txt"
-	fileContent := ""
-
 	currentDate := start
+
 	for currentDate.Before(end) || currentDate.Equal(end) {
+		// Prepare file content for the day
+		fileContent := ""
+
 		for i := 0; i < commitsPerDay; i++ {
-			fileContent += fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))
+			fileContent += fmt.Sprintf("This is commit number %d for %s - unique id: %d.\n", i+1, currentDate.Format("2006-01-02"), time.Now().UnixNano())
+		}
+
+		// Write all commit messages to the single file
+		if err := os.WriteFile(filename, []byte(fileContent), 0644); err != nil {
+			fmt.Println("Error writing file:", err)
+			return
+		}
+
+		// Stage the file for commit
+		if err := gitAdd(filename); err != nil {
+			fmt.Println("Error adding file:", err)
+			return
+		}
+
+		// Commit the changes
+		for i := 0; i < commitsPerDay; i++ {
 			if err := gitCommit(currentDate, i); err != nil {
 				log.Print("Error committing:", err)
 				return
 			}
 		}
+
 		currentDate = currentDate.AddDate(0, 0, 1)
 	}
 
-	// Write all commit messages to the single file
-	if err := os.WriteFile(filename, []byte(fileContent), 0644); err != nil {
-		fmt.Println("Error writing file:", err)
-		return
-	}
-
-	if err := gitAdd(); err != nil {
-		fmt.Println("Error adding file:", err)
-		return
-	}
-
+	// Push the changes
 	if err := gitPush(); err != nil {
 		fmt.Println("Error pushing to repository:", err)
 	}
 }
-func gitAdd() error {
-	// Add all changes
-	cmd := exec.Command("git", "add", ".")
+
+func gitAdd(filename string) error {
+	cmd := exec.Command("git", "add", filename)
 	return cmd.Run()
 }
 

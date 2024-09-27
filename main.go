@@ -9,10 +9,10 @@ import (
 
 const (
 	fileName      = "commit_file.txt" // Single file for all commits
-	startDate     = "2021-09-25"
+	startDate     = "2024-05-25"
 	endDate       = "2024-09-27"
-	commitMessage = "Test"
-	commitsPerDay = 1
+	commitMessage = "Test-Automation-Commit"
+	commitsPerDay = 2
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
 )
@@ -20,47 +20,56 @@ const (
 func main() {
 	start, err := time.Parse("2006-01-02", startDate)
 	if err != nil {
-		fmt.Println("Error parsing start date:", err)
+		logError("Error parsing start date:", err)
 		return
 	}
+	logInfo("Start date parsed successfully:", start)
 
 	end, err := time.Parse("2006-01-02", endDate)
 	if err != nil {
-		fmt.Println("Error parsing end date:", err)
+		logError("Error parsing end date:", err)
 		return
 	}
+	logInfo("End date parsed successfully:", end)
 
 	currentDate := start
 
 	// Create or open the single commit file
 	if err := os.WriteFile(fileName, []byte("Commits:\n"), 0644); err != nil {
-		fmt.Println("Error writing initial file:", err)
+		logError("Error writing initial file:", err)
 		return
 	}
+	logInfo("Initial commit file created:", fileName)
 
 	for currentDate.Before(end) || currentDate.Equal(end) {
 		for i := 0; i < commitsPerDay; i++ {
-			// Append content to the file
-			if err := appendToFile(fileName, fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))); err != nil {
-				fmt.Println("Error appending to file:", err)
+			content := fmt.Sprintf("This is commit number %d for %s.\n", i+1, currentDate.Format("2006-01-02"))
+			if err := appendToFile(fileName, content); err != nil {
+				logError("Error appending to file:", err)
 				return
 			}
+			logInfo("Appended to file:", content)
 
 			if err := gitAdd(fileName); err != nil {
-				fmt.Println("Error adding file:", err)
+				logError("Error adding file:", err)
 				return
 			}
+			logInfo("File added to git:", fileName)
 
 			if err := gitCommit(currentDate, i); err != nil {
-				fmt.Println("Error committing:", err)
+				logError("Error committing:", err)
 				return
 			}
+			logInfo("Commit created for date:", currentDate.Format("2006-01-02"))
 		}
 		currentDate = currentDate.AddDate(0, 0, 1)
+		logInfo("Moving to next date:", currentDate.Format("2006-01-02"))
 	}
 
 	if err := gitPush(); err != nil {
-		fmt.Println("Error pushing to repository:", err)
+		logError("Error pushing to repository:", err)
+	} else {
+		logInfo("Changes pushed to repository successfully.")
 	}
 }
 
@@ -99,4 +108,12 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 func gitPush() error {
 	cmd := exec.Command("git", "push", "origin", "master")
 	return cmd.Run()
+}
+
+func logInfo(v ...interface{}) {
+	fmt.Println("[INFO]", fmt.Sprint(v...))
+}
+
+func logError(v ...interface{}) {
+	fmt.Println("[ERROR]", fmt.Sprint(v...))
 }

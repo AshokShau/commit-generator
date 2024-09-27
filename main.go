@@ -97,6 +97,19 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 }
 
 func gitPush() error {
+	// Check the current status
+	statusCmd := exec.Command("git", "status")
+	statusOut, err := statusCmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("error checking git status: %w", err)
+	}
+	fmt.Println("Git status output:", string(statusOut))
+
 	cmd := exec.Command("git", "push", "origin", "master")
-	return cmd.Run()
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("push failed: %s, error: %w", out, err)
+	}
+	return nil
 }
+```

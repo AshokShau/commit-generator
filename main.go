@@ -60,7 +60,7 @@ func main() {
 		logInfo("Changes pushed to repository successfully.")
 	}
 }
-	
+
 // appendToFile appends the given content to the specified file.
 func appendToFile(filename, content string) error {
 	file, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0644)

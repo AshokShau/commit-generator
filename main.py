@@ -5,7 +5,7 @@ file_name = "commit_file.txt"
 start_date = "2024-09-24"
 end_date = "2024-09-28"
 commit_message = "Test-Automation-Commit"
-commits_per_day = 2
+commits_per_day = 10
 author_name = "AshokShau"
 author_email = "114943948+AshokShau@users.noreply.github.com"
 

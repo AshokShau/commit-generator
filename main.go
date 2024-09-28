@@ -12,7 +12,7 @@ const (
 	startDate     = "2024-09-24"
 	endDate       = "2024-09-28"
 	commitMessage = "Test-Automation-Commit"
-	commitsPerDay = 30
+	commitsPerDay = 10
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
 )

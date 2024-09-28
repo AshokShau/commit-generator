@@ -37,7 +37,7 @@ cd commit-generator
 
 ### Modify the Configuration
 
-Edit the constants in `main.go` to set your desired configuration:
+Edit the constants in `main.go` or `main.py` to set your desired configuration:
 
 - `fileName`: Name of the file where commit messages will be stored.
 - `startDate`: The start date for generating commits (format: YYYY-MM-DD).
@@ -54,6 +54,12 @@ To run the program, execute:
 ```bash
 go run main.go
 ```
+or 
+```bash
+python3 main.py
+```
+
+The program will create a file with commit messages, generate commits, and push the changes to the remote repository.
 
 ### Verify Commits
 

@@ -37,7 +37,7 @@ cd commit-generator
 
 ### Modify the Configuration
 
-Edit the constants in `main.go` or `main.py` to set your desired configuration:
+##### Edit the constants in `main.py` or `main.go` to set your desired configuration
 
 - `fileName`: Name of the file where commit messages will be stored.
 - `startDate`: The start date for generating commits (format: YYYY-MM-DD).
@@ -46,6 +46,7 @@ Edit the constants in `main.go` or `main.py` to set your desired configuration:
 - `commitsPerDay`: Number of commits to create per day.
 - `authorName`: Your name as it will appear in commits.
 - `authorEmail`: Your email as it will appear in commits.
+- `branchName`: The name of the branch to push changes to.
 
 ### Run the Program
 

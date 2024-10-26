@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// only edit the constants in this section
 const (
 	fileName      = "commit_file.txt"
 	startDate     = "2024-09-24"
@@ -15,6 +16,7 @@ const (
 	commitsPerDay = 10
 	authorName    = "AshokShau"
 	authorEmail   = "114943948+AshokShau@users.noreply.github.com"
+	branchName    = "master"
 )
 
 // main is the entry point of the program. It generates multiple git commits
@@ -94,7 +96,7 @@ func gitCommit(currentDate time.Time, commitIndex int) error {
 
 // gitPush pushes the committed changes to the remote repository.
 func gitPush() error {
-	return exec.Command("git", "push", "origin", "master").Run()
+	return exec.Command("git", "push", "origin", branchName).Run()
 }
 
 // logInfo logs informational messages to the console.
